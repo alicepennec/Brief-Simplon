@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  data-storage:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - sqlite3
+
+
+  data-analyzer:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - data-storage
+
+
+  sqlite3:
+    image: sqlite
+    volumes: 
+      - ./data:/app/data
+    ports: 
+      - "1433:1433"
